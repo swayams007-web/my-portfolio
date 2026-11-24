@@ -79,7 +79,8 @@ main{padding-top:calc(60px + env(safe-area-inset-top,0px))}
 .contact h2{font-size:clamp(2.4rem,6.4vw,5.6rem);max-width:16ch}
 .crow{margin-top:clamp(28px,4vw,52px);border-top:1px solid var(--line)}
 .crow div{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);font-size:1.1rem}
-.crow span{color:var(--ash)}
+.crow a{color:var(--ash);text-decoration:none;text-align:right;overflow-wrap:anywhere;transition:color .2s}
+.crow a:hover,.crow a:focus-visible{color:var(--bone)}
 footer{padding-block:32px calc(40px + env(safe-area-inset-bottom,0px));color:var(--ash);font-size:.88rem}
 /* gallery view */
 .gtabs{display:flex;gap:clamp(16px,3vw,36px);padding-top:clamp(20px,3vw,36px);margin-bottom:clamp(20px,3vw,36px);flex-wrap:wrap;align-items:baseline}
@@ -148,7 +149,7 @@ var ABOUT=[
 var SKILLS=["Content Strategy & Planning","Creative Ideation","Scriptwriting","Social Media Management","Trend Research","Video Shooting","Meta Ads","Performance Analysis","On-camera Presentation"];
 var PLAY='<span class="pl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l14 8-14 8z"/></svg></span>';
 function tile(list,i,eager){var id=LISTS[list][i];
- return '<button type="button" class="tile" data-list="'+list+'" data-i="'+i+'" aria-label="Play video '+(i+1)+' of '+LISTS[list].length+'"><img src="m/'+id+'.jpg" alt=""'+(eager?'':' loading="lazy"')+' width="360" height="640">'+PLAY+'</button>';}
+ return '<button type="button" class="tile" data-list="'+list+'" data-i="'+i+'" aria-label="Play video '+(i+1)+' of '+LISTS[list].length+'"><img src="'+id+'.jpg" alt=""'+(eager?'':' loading="lazy"')+' width="360" height="640">'+PLAY+'</button>';}
 function rowHTML(list,from,n,eager){var s='';for(var k=0;k<n;k++)s+=tile(list,from+k,eager);return '<div class="rows" data-n="'+n+'">'+s+'</div>';}
 function home(){
  var h='';
@@ -161,7 +162,7 @@ function home(){
  h+='<section class="sec" id="ads"><div class="head"><h2 class="h2 display">All Ads</h2><a class="more" href="#all-ads">View all '+ADS.length+'</a></div>'+rowHTML('ads',0,6,false)+'</section>';
  h+='<section class="sec" id="social"><div class="head"><h2 class="h2 display">All Social Content</h2><a class="more" href="#all-social">View all '+SOC.length+'</a></div>'+rowHTML('social',0,6,false)+'</section>';
  h+='<section class="sec about" id="about"><div><h2 class="h2 display">A little<br>about me</h2></div><div class="txt"><p class="lead">'+ABOUT[0]+'</p>'+ABOUT.slice(1).map(function(t){return '<p>'+t+'</p>'}).join('')+'<ul class="skills">'+SKILLS.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul></div></section>';
- h+='<section class="sec contact" id="contact"><h2 class="display">Have an idea? Let&rsquo;s make something worth watching.</h2><div class="crow"><div>Email<span>To be added</span></div><div>LinkedIn<span>To be added</span></div><div>Instagram<span>To be added</span></div></div></section>';
+ h+='<section class="sec contact" id="contact"><h2 class="display">Have an idea? Let&rsquo;s make something worth watching.</h2><div class="crow"><div>Email<a href="mailto:swayams007@gmail.com">swayams007@gmail.com</a></div><div>LinkedIn<a href="https://www.linkedin.com/in/swayam-sahijwani-a743002b5" target="_blank" rel="noopener">linkedin.com/in/swayam-sahijwani</a></div><div>Phone<a href="tel:+918770338582">+91 8770338582</a></div></div></section>';
  h+='<footer>&copy; 2026 Swayam Sahijwani</footer></div>';
  return h;}
 function gallery(list){var other=list==='ads'?'social':'ads';
@@ -186,7 +187,7 @@ document.addEventListener('click',function(e){
 var noHover=false;document.addEventListener('pointermove',function(){noHover=false;});
 document.addEventListener('pointerover',function(e){if(e.pointerType!=='mouse'||noHover)return;var t=e.target.closest('.tile');if(!t||t===active)return;stopPrev();active=t;
  var id=LISTS[t.dataset.list][+t.dataset.i],v=t.querySelector('video');
- if(!v){v=document.createElement('video');v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.src='m/'+id+'.mp4';t.insertBefore(v,t.querySelector('.pl'));}
+ if(!v){v=document.createElement('video');v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.src=id+'.mp4';t.insertBefore(v,t.querySelector('.pl'));}
  var p=v.play();if(p&&p.catch)p.catch(function(){});t.classList.add('on');});
 document.addEventListener('pointerout',function(e){var t=e.target.closest('.tile');if(t&&t===active&&!t.contains(e.relatedTarget))stopPrev();});
 function stopPrev(){if(!active)return;var v=active.querySelector('video');if(v){v.pause();v.currentTime=0;}active.classList.remove('on');active=null;}
